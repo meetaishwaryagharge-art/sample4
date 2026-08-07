@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ominex Paints — Beautiful Walls. Better Life.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+<style>
+  :root{
+    --cream:#F6F1E6;
+    --ink:#1C2333;
+    --orange:#E8592A;
+    --blue:#1E5AA8;
+    --green:#3E8E41;
+    --gold:#D9A441;
+    --white:#FFFFFF;
+    --line: rgba(28,35,51,.12);
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--cream);
+    color:var(--ink);
+    font-family:'Inter',sans-serif;
+    overflow-x:hidden;
+  }
+  .display{font-family:'Anton',sans-serif; text-transform:uppercase; letter-spacing:.5px; line-height:.95;}
+  .mono{font-family:'JetBrains Mono',monospace;}
+  .eyebrow{font-family:'JetBrains Mono',monospace; letter-spacing:.18em; text-transform:uppercase; font-size:.72rem; font-weight:700; color:var(--orange);}
+  a{text-decoration:none;}
+
+  /* ---------- Navbar ---------- */
+  .topbar{background:var(--ink); color:var(--cream); font-family:'JetBrains Mono',monospace; font-size:.75rem;}
+  .topbar a{color:var(--cream); opacity:.85;}
+  .topbar a:hover{opacity:1; color:var(--orange);}
+  .navbar{background:var(--cream); border-bottom:2px solid var(--ink); padding-top:.85rem; padding-bottom:.85rem;}
+  .navbar-brand img{height:46px;}
+  .nav-link{font-weight:600; color:var(--ink)!important; margin:0 .6rem; position:relative;}
+  .nav-link::after{content:"";position:absolute;left:0;bottom:-4px;width:0;height:2px;background:var(--orange);transition:width .2s;}
+  .nav-link:hover::after{width:100%;}
+  .btn-brand{background:var(--orange); color:#fff; font-weight:700; border-radius:2px; padding:.6rem 1.3rem; border:2px solid var(--ink); box-shadow:4px 4px 0 var(--ink);}
+  .btn-brand:hover{color:#fff; transform:translate(2px,2px); box-shadow:2px 2px 0 var(--ink);}
+  .btn-outline-ink{border:2px solid var(--ink); color:var(--ink); font-weight:700; border-radius:2px; padding:.6rem 1.3rem;}
+  .btn-outline-ink:hover{background:var(--ink); color:var(--cream);}
+
+  /* ---------- Hero ---------- */
+  .hero{position:relative; padding:4.5rem 0 3rem; border-bottom:2px solid var(--ink);}
+  .hero h1{font-size:clamp(2.6rem,6vw,5.2rem);}
+  .hero h1 .accent{color:var(--orange);}
+  .hero .lede{max-width:480px; font-size:1.05rem; color:#444;}
+  .hero-img-wrap{position:relative;}
+  .hero-img-wrap img{width:100%; border-radius:6px; border:3px solid var(--ink); box-shadow:10px 10px 0 var(--orange);}
+  .hero-badge{position:absolute; bottom:-22px; left:-22px; background:var(--ink); color:var(--cream); border-radius:50%; width:120px; height:120px; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; font-family:'Anton',sans-serif; border:3px solid var(--gold);}
+  .hero-badge span{display:block;}
+  .hero-badge .num{font-size:1.6rem; color:var(--gold);}
+  .hero-badge .txt{font-family:'JetBrains Mono',monospace; font-size:.55rem; letter-spacing:.05em; text-transform:uppercase;}
+
+  /* marquee */
+  .marquee-wrap{background:var(--ink); border-bottom:2px solid var(--ink); overflow:hidden; padding:.7rem 0;}
+  .marquee{display:flex; white-space:nowrap; animation:scroll 26s linear infinite; width:max-content;}
+  .marquee span{color:var(--cream); font-family:'JetBrains Mono',monospace; font-size:.85rem; letter-spacing:.08em; text-transform:uppercase; padding:0 2rem; display:flex; align-items:center; gap:.6rem;}
+  .marquee span i{color:var(--gold);}
+  @keyframes scroll{ from{transform:translateX(0);} to{transform:translateX(-50%);} }
+
+  /* section headings */
+  .sec-pad{padding:5rem 0;}
+  .sec-title{font-size:clamp(2rem,4.5vw,3.2rem);}
+  .sec-sub{color:#5a5a5a; max-width:560px;}
+
+  /* ---------- Shade wall ---------- */
+  .shadewall{position:relative; background:var(--ink); color:var(--cream); overflow:hidden;}
+  .swatch-grid{display:grid; grid-template-columns:repeat(16,1fr); position:absolute; inset:0; opacity:.9;}
+  .swatch-grid div{aspect-ratio:1;}
+  .shadewall-content{position:relative; z-index:2; padding:6rem 1rem; text-align:center;}
+  .shadewall-content .sec-title{color:#fff;}
+  .shadewall-content .sec-sub{color:#d8d3c6; margin:0 auto;}
+  .shade-pill{display:inline-flex; align-items:center; gap:.5rem; background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.25); padding:.5rem 1.1rem; border-radius:40px; font-family:'JetBrains Mono',monospace; font-size:.8rem; margin-top:1.5rem;}
+
+  /* ---------- Product cards ---------- */
+  .product-card{background:#fff; border:2px solid var(--ink); border-radius:8px; overflow:hidden; height:100%; transition:transform .2s, box-shadow .2s;}
+  .product-card:hover{transform:translateY(-6px); box-shadow:8px 8px 0 var(--ink);}
+  .product-card .imgwrap{aspect-ratio:4/5; overflow:hidden; position:relative;}
+  .product-card .imgwrap img{width:100%; height:100%; object-fit:cover; object-position:top center;}
+  .cat-bar{height:8px; width:100%;}
+  .product-card .body{padding:1.1rem 1.2rem 1.3rem;}
+  .product-card h5{font-family:'Anton',sans-serif; text-transform:uppercase; font-size:1.1rem; letter-spacing:.3px;}
+  .spec-row{display:flex; justify-content:space-between; font-family:'JetBrains Mono',monospace; font-size:.72rem; color:#666; border-top:1px dashed var(--line); padding-top:.5rem; margin-top:.6rem;}
+  .tag{display:inline-block; font-family:'JetBrains Mono',monospace; font-size:.65rem; padding:.15rem .5rem; border:1px solid var(--ink); border-radius:20px; margin-right:.3rem;}
+
+  /* diagonal roller divider */
+  .roller-divider{height:90px; position:relative; background:var(--cream);}
+  .roller-divider svg{width:100%; height:100%; display:block;}
+
+  /* stats */
+  .stats-section{background:var(--white); border-top:2px solid var(--ink); border-bottom:2px solid var(--ink);}
+  .stat{text-align:center; padding:2.5rem 1rem; border-right:1px dashed var(--line);}
+  .stat:last-child{border-right:none;}
+  .stat .num{font-family:'Anton',sans-serif; font-size:3rem; color:var(--orange);}
+  .stat .lbl{font-family:'JetBrains Mono',monospace; font-size:.75rem; text-transform:uppercase; letter-spacing:.1em; color:#555;}
+
+  /* process */
+  .process-step{position:relative; padding-left:70px; margin-bottom:2.2rem;}
+  .process-step .step-num{position:absolute; left:0; top:0; width:52px; height:52px; border-radius:50%; background:var(--ink); color:var(--gold); display:flex; align-items:center; justify-content:center; font-family:'Anton',sans-serif; font-size:1.3rem; border:2px solid var(--gold);}
+  .process-step h6{font-family:'Anton',sans-serif; text-transform:uppercase; letter-spacing:.3px;}
+
+  /* CTA band */
+  .cta-band{background:var(--orange); color:#fff; position:relative; overflow:hidden;}
+  .cta-band h2{font-size:clamp(1.8rem,4vw,3rem);}
+
+  /* footer */
+  footer{background:var(--ink); color:var(--cream); padding:4rem 0 1.5rem;}
+  footer h6{font-family:'JetBrains Mono',monospace; text-transform:uppercase; letter-spacing:.12em; font-size:.75rem; color:var(--gold);}
+  footer a{color:#cfcabb;}
+  footer a:hover{color:#fff;}
+  .foot-line{border-top:1px solid rgba(255,255,255,.15); margin-top:2.5rem; padding-top:1.2rem; font-family:'JetBrains Mono',monospace; font-size:.75rem; color:#8b8878;}
+  .social-ic{width:36px; height:36px; border:1px solid rgba(255,255,255,.3); border-radius:50%; display:inline-flex; align-items:center; justify-content:center; margin-right:.5rem;}
+  .social-ic:hover{background:var(--orange); border-color:var(--orange);}
+</style>
+</head>
+<body>
+
+<!-- Topbar -->
+<div class="topbar py-2">
+  <div class="container d-flex justify-content-between align-items-center flex-wrap gap-2">
+    <div class="d-flex gap-3">
+      <a href="tel:+917354855558"><i class="bi bi-telephone-fill me-1"></i>+91 73548 55558</a>
+      <a href="mailto:customercare@amzerawalagroup.com" class="d-none d-md-inline"><i class="bi bi-envelope-fill me-1"></i>customercare@amzerawalagroup.com</a>
+    </div>
+    <div class="d-flex gap-3 align-items-center">
+      <span class="d-none d-sm-inline"><i class="bi bi-geo-alt-fill me-1"></i>Sanwer Road, Indore</span>
+      <a href="#dealer" class="fw-bold" style="color:var(--gold)">Find A Dealer →</a>
+    </div>
+  </div>
+</div>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg sticky-top">
+  <div class="container">
+    <a class="navbar-brand" href="#"><img src="logo.jpeg" alt="Ominex Paints"></a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav1">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="nav1">
+      <ul class="navbar-nav mx-auto">
+        <li class="nav-item"><a class="nav-link" href="#products">Products</a></li>
+        <li class="nav-item"><a class="nav-link" href="#shades">Shades</a></li>
+        <li class="nav-item"><a class="nav-link" href="#process">Process</a></li>
+        <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+        <li class="nav-item"><a class="nav-link" href="#dealer">Dealer</a></li>
+      </ul>
+      <a href="#dealer" class="btn btn-brand">Become a Dealer</a>
+    </div>
+  </div>
+</nav>
+
+<!-- Hero -->
+<header class="hero">
+  <div class="container">
+    <div class="row align-items-center g-5">
+      <div class="col-lg-6">
+        <p class="eyebrow mb-3"># by Amzera Wala Group · Since 2012</p>
+        <h1 class="display mb-4">Beautiful<br>Walls.<br><span class="accent">Better Life.</span></h1>
+        <p class="lede mb-4">Ominex Paints brings colour, protection and character to every surface — with primers, putties, emulsions and waterproofing built for Indian weather, from 1 litre tins to full-site 20L drums.</p>
+        <div class="d-flex flex-wrap gap-3">
+          <a href="#products" class="btn btn-brand">Explore Products <i class="bi bi-arrow-right ms-1"></i></a>
+          <a href="#shades" class="btn btn-outline-ink">View 1700+ Shades</a>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="hero-img-wrap">
+          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR3QoXhBlvjn7wkRWPGbHZkgH-VKri3kt3TvO14Jm15qdDlskKnTBF33Wk&s=10" alt="Ominex Paints product range">
+          <div class="hero-badge"><span class="num">35+</span><span class="txt">Years Group Legacy</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- Marquee -->
+<div class="marquee-wrap">
+  <div class="marquee">
+    <span><i class="bi bi-gem"></i>Premium Quality</span>
+    <span><i class="bi bi-shield-check"></i>Long Lasting Protection</span>
+    <span><i class="bi bi-cpu"></i>Advanced Technology</span>
+    <span><i class="bi bi-house-heart"></i>Beautiful Finish</span>
+    <span><i class="bi bi-patch-check"></i>Satisfaction Guaranteed</span>
+    <span><i class="bi bi-gem"></i>Premium Quality</span>
+    <span><i class="bi bi-shield-check"></i>Long Lasting Protection</span>
+    <span><i class="bi bi-cpu"></i>Advanced Technology</span>
+    <span><i class="bi bi-house-heart"></i>Beautiful Finish</span>
+    <span><i class="bi bi-patch-check"></i>Satisfaction Guaranteed</span>
+  </div>
+</div>
+
+<!-- Product Range -->
+<section class="sec-pad" id="products">
+  <div class="container">
+    <div class="d-flex justify-content-between align-items-end flex-wrap gap-3 mb-5">
+      <div>
+        <p class="eyebrow mb-2">The Range</p>
+        <h2 class="display sec-title">8 Products.<br>One Wall System.</h2>
+      </div>
+      <p class="sec-sub mb-0">From surface prep to the final protective coat — every Ominex product is engineered to work together, not just sit next to each other.</p>
+    </div>
+
+    <div class="row g-4">
+      <!-- 1 -->
+      <div class="col-sm-6 col-lg-3">
+        <div class="product-card">
+          <div class="cat-bar" style="background:var(--green)"></div>
+          <div class="imgwrap"><img src="assets/ominex-eco-prime-primer.jpg" alt="Ominex Eco Prime Primer"></div>
+          <div class="body">
+            <h5>Eco Prime Primer</h5>
+            <p class="small text-muted mb-2">Water-based interior base coat that seals porous plaster before painting.</p>
+            <div class="spec-row"><span>Coverage</span><span>90–100 sq.ft/L</span></div>
+            <div class="spec-row"><span>Pack</span><span>1·4·10·20 L</span></div>
+          </div>
+        </div>
+      </div>
+      <!-- 2 -->
+      <div class="col-sm-6 col-lg-3">
+        <div class="product-card">
+          <div class="cat-bar" style="background:var(--orange)"></div>
+          <div class="imgwrap"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSjofsWjB9HkJFk0_ZfTIKFBier_gmLGyhIhpsdIRp-7KghsvWDsH-Ad7Vn&s=10" alt="Ominex Interior Primer"></div>
+          <div class="body">
+            <h5>Interior Primer</h5>
+            <p class="small text-muted mb-2">Reduces surface porosity for a smooth, even topcoat indoors.</p>
+            <div class="spec-row"><span>Coverage</span><span>90–100 sq.ft/L</span></div>
+            <div class="spec-row"><span>Pack</span><span>1·4·10·20 L</span></div>
+          </div>
+        </div>
+      </div>
+      <!-- 3 -->
+      <div class="col-sm-6 col-lg-3">
+        <div class="product-card">
+          <div class="cat-bar" style="background:var(--blue)"></div>
+          <div class="imgwrap"><img src="assets/ominex-exterior-primer.jpg" alt="Ominex Exterior Primer"></div>
+          <div class="body">
+            <h5>Exterior Primer</h5>
+            <p class="small text-muted mb-2">Strong foundation coat that binds exterior emulsion to the wall.</p>
+            <div class="spec-row"><span>Coverage</span><span>90–100 sq.ft/L</span></div>
+            <div class="spec-row"><span>Pack</span><span>1·4·10·20 L</span></div>
+          </div>
+        </div>
+      </div>
+      <!-- 4 -->
+      <div class="col-sm-6 col-lg-3">
+        <div class="product-card">
+          <div class="cat-bar" style="background:var(--gold)"></div>
+          <div class="imgwrap"><img src="assets/ominex-luxury-primer.jpg" alt="Ominex Luxury Primer"></div>
+          <div class="body">
+            <h5>Luxury Primer</h5>
+            <p class="small text-muted mb-2">Imported binders for dense cement plasters &amp; premium topcoats.</p>
+            <div class="spec-row"><span>Coverage</span><span>100–110 sq.ft/L</span></div>
+            <div class="spec-row"><span>Pack</span><span>1·4·10·20 L</span></div>
+          </div>
+        </div>
+      </div>
+      <!-- 5 -->
+      <div class="col-sm-6 col-lg-3">
+        <div class="product-card">
+          <div class="cat-bar" style="background:#6B7A3B"></div>
+          <div class="imgwrap"><img src="assets/ominex-acrylic-putty.jpg" alt="Ominex Acrylic Putty"></div>
+          <div class="body">
+            <h5>Acrylic Putty</h5>
+            <p class="small text-muted mb-2">Roller-fine putty with imported polymers for a pore-free wall.</p>
+            <div class="spec-row"><span>Coverage</span><span>10–12 sq.ft/kg</span></div>
+            <div class="spec-row"><span>Pack</span><span>1·5·10·20 kg</span></div>
+          </div>
+        </div>
+      </div>
+      <!-- 6 -->
+      <div class="col-sm-6 col-lg-3">
+        <div class="product-card">
+          <div class="cat-bar" style="background:#4C7FB0"></div>
+          <div class="imgwrap"><img src="assets/ominex-3x-exterior-emulsion.jpg" alt="Ominex 3X Exterior Emulsion"></div>
+          <div class="body">
+            <h5>3X Exterior Emulsion</h5>
+            <p class="small text-muted mb-2">Smooth matte finish that resists sun, rain and dust.</p>
+            <div class="spec-row"><span>Shades</span><span>1500+</span></div>
+            <div class="spec-row"><span>Warranty</span><span>2 Years</span></div>
+          </div>
+        </div>
+      </div>
+      <!-- 7 -->
+      <div class="col-sm-6 col-lg-3">
+        <div class="product-card">
+          <div class="cat-bar" style="background:var(--ink)"></div>
+          <div class="imgwrap"><img src="assets/ominex-xpert-emulsion.jpg" alt="OmineXpert Emulsion"></div>
+          <div class="body">
+            <h5>OmineXpert Emulsion</h5>
+            <p class="small text-muted mb-2">Silicon-enriched, dust &amp; fungus resistant, high-sheen finish.</p>
+            <div class="spec-row"><span>Shades</span><span>1700+</span></div>
+            <div class="spec-row"><span>Warranty</span><span>5 Years</span></div>
+          </div>
+        </div>
+      </div>
+      <!-- 8 -->
+      <div class="col-sm-6 col-lg-3">
+        <div class="product-card">
+          <div class="cat-bar" style="background:#B23A2E"></div>
+          <div class="imgwrap"><img src="assets/ominex-damp-protect.jpg" alt="Ominex Damp Protect"></div>
+          <div class="body">
+            <h5>Damp Protect</h5>
+            <p class="small text-muted mb-2">Elastomeric waterproofing that bridges cracks up to 1mm.</p>
+            <div class="spec-row"><span>Cools surface</span><span>−10°C</span></div>
+            <div class="spec-row"><span>Life</span><span>10 Years</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Roller divider -->
+<div class="roller-divider">
+  <svg viewBox="0 0 1440 90" preserveAspectRatio="none"><path d="M0,60 C300,10 550,90 900,50 C1150,20 1300,70 1440,40 L1440,90 L0,90 Z" fill="#1C2333"></path></svg>
+</div>
+
+<!-- Shade wall -->
+<section class="shadewall" id="shades">
+  <div class="swatch-grid" id="swatchGrid"></div>
+  <div class="shadewall-content container">
+    <p class="eyebrow mb-2" style="color:var(--gold)">The Shade Wall</p>
+    <h2 class="display sec-title">1700+ Colours.<br>Every Mood, Covered.</h2>
+    <p class="sec-sub">From Fresh Pastels to Bold Accents — OmineXpert Emulsion alone ships in 1700+ ready shades, tinted at your nearest dealer counter while you wait.</p>
+    <div class="shade-pill"><i class="bi bi-eyedropper" style="color:var(--gold)"></i> Pick a shade → we tint it → you paint it, same day</div>
+  </div>
+</section>
+
+<!-- Stats -->
+<section class="stats-section">
+  <div class="container">
+    <div class="row g-0">
+      <div class="col-6 col-md-3 stat"><div class="num" data-count="35">0</div><div class="lbl">Years, Group Legacy</div></div>
+      <div class="col-6 col-md-3 stat"><div class="num" data-count="12">0</div><div class="lbl">Years in Paints</div></div>
+      <div class="col-6 col-md-3 stat"><div class="num" data-count="8">0</div><div class="lbl">Core Products</div></div>
+      <div class="col-6 col-md-3 stat"><div class="num" data-count="1700">0</div><div class="lbl">Shades Available</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- Process -->
+<section class="sec-pad" id="process">
+  <div class="container">
+    <div class="row g-5">
+      <div class="col-lg-5">
+        <p class="eyebrow mb-2">How It's Applied</p>
+        <h2 class="display sec-title mb-3">Four Coats.<br>Zero Guesswork.</h2>
+        <p class="sec-sub">Every Ominex wall system follows the same sequence on site — from bare plaster to a 5-year finish.</p>
+      </div>
+      <div class="col-lg-7">
+        <div class="process-step">
+          <div class="step-num">01</div>
+          <h6>Prime the surface</h6>
+          <p class="text-muted mb-0">Apply Eco Prime / Interior / Exterior Primer to seal plaster and even out absorption.</p>
+        </div>
+        <div class="process-step">
+          <div class="step-num">02</div>
+          <h6>Fill with putty</h6>
+          <p class="text-muted mb-0">Two coats of Acrylic Putty for a pore-free, roller-smooth base — sand once dry.</p>
+        </div>
+        <div class="process-step">
+          <div class="step-num">03</div>
+          <h6>Coat with emulsion</h6>
+          <p class="text-muted mb-0">Finish with 3X Exterior or OmineXpert Emulsion in your chosen shade, two coats.</p>
+        </div>
+        <div class="process-step">
+          <div class="step-num">04</div>
+          <h6>Protect exposed areas</h6>
+          <p class="text-muted mb-0">Terraces, parapets &amp; damp-prone walls get a Damp Protect waterproof layer.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA band -->
+<div class="cta-band py-5" id="dealer">
+  <div class="container d-flex flex-wrap justify-content-between align-items-center gap-3">
+    <h2 class="display mb-0">Stock Ominex.<br>Grow With Us.</h2>
+    <a href="#" class="btn btn-light fw-bold px-4 py-3">Apply to Become a Dealer <i class="bi bi-arrow-right ms-1"></i></a>
+  </div>
+</div>
+
+<!-- About / Company -->
+<section class="sec-pad" id="about">
+  <div class="container">
+    <div class="row g-5 align-items-center">
+      <div class="col-lg-5">
+        <img src="assets/factory.jpg" class="img-fluid rounded" style="border:3px solid var(--ink); box-shadow:8px 8px 0 var(--gold);" alt="Ominex Paints manufacturing unit, Indore">
+      </div>
+      <div class="col-lg-7">
+        <p class="eyebrow mb-2">Backed By Amzera Wala Group</p>
+        <h2 class="display sec-title mb-3">35 Years Of Trust,<br>12 Years In Paint.</h2>
+        <p class="text-muted mb-4">Amzera Wala Group has stood for quality, trust and customer satisfaction across Indian industry for over three decades. Ominex Paints channels that legacy into one mission: give every home, office and job site a coating that looks good and lasts — not just a bucket of colour.</p>
+        <div class="row g-3">
+          <div class="col-sm-4"><span class="tag">Quality</span></div>
+          <div class="col-sm-4"><span class="tag">Reliability</span></div>
+          <div class="col-sm-4"><span class="tag">Sustainability</span></div>
+          <div class="col-sm-4"><span class="tag">Excellence</span></div>
+          <div class="col-sm-4"><span class="tag">Collaboration</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="container">
+    <div class="row g-4">
+      <div class="col-lg-4">
+        <img src="assets/ominex-logo.jpg" style="height:50px; background:#fff; padding:6px 10px; border-radius:4px;" alt="Ominex Paints">
+        <p class="mt-3" style="color:#cfcabb; max-width:320px;">Premium paint solutions for every surface — by Amzera Wala Group. Beautiful walls. Better life.</p>
+        <div class="mt-3">
+          <a href="#" class="social-ic"><i class="bi bi-facebook"></i></a>
+          <a href="#" class="social-ic"><i class="bi bi-instagram"></i></a>
+          <a href="#" class="social-ic"><i class="bi bi-linkedin"></i></a>
+        </div>
+      </div>
+      <div class="col-6 col-lg-2">
+        <h6>Products</h6>
+        <ul class="list-unstyled">
+          <li class="mb-2"><a href="#products">Primers</a></li>
+          <li class="mb-2"><a href="#products">Putty</a></li>
+          <li class="mb-2"><a href="#products">Emulsions</a></li>
+          <li class="mb-2"><a href="#products">Waterproofing</a></li>
+        </ul>
+      </div>
+      <div class="col-6 col-lg-2">
+        <h6>Company</h6>
+        <ul class="list-unstyled">
+          <li class="mb-2"><a href="#about">About Us</a></li>
+          <li class="mb-2"><a href="#dealer">Become a Dealer</a></li>
+          <li class="mb-2"><a href="#shades">Colour Guide</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-4">
+        <h6>Head Office</h6>
+        <p class="mb-1" style="color:#cfcabb;">Industrial Area, Sector D,<br>Sanwer Road, Indore – 452015</p>
+        <p class="mb-1" style="color:#cfcabb;"><i class="bi bi-telephone-fill me-2"></i>+91 73548 55558</p>
+        <p style="color:#cfcabb;"><i class="bi bi-envelope-fill me-2"></i>customercare@amzerawalagroup.com</p>
+      </div>
+    </div>
+    <div class="foot-line d-flex justify-content-between flex-wrap gap-2">
+      <span>© 2026 Ominex Paints — Amzera Wala Group. All rights reserved.</span>
+      <span>Design concept A / Shade Wall</span>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  // Build shade wall swatches
+  const palette = ["#E8592A","#1E5AA8","#3E8E41","#D9A441","#B23A2E","#6B7A3B","#4C7FB0","#C9972E","#8F3B5C","#2E7D6B","#D98A3D","#5B4B8A","#3E6E52","#B5651D","#E3B23C","#274472","#7A9E7E","#9E4770","#C97C5D","#4E6E58"];
+  const grid = document.getElementById('swatchGrid');
+  let html='';
+  for(let i=0;i<160;i++){
+    const c = palette[Math.floor(Math.random()*palette.length)];
+    html += `<div style="background:${c}"></div>`;
+  }
+  grid.innerHTML = html;
+
+  // Count-up stats
+  const counters = document.querySelectorAll('.stat .num');
+  const observer = new IntersectionObserver((entries)=>{
+    entries.forEach(entry=>{
+      if(entry.isIntersecting){
+        const el = entry.target;
+        const target = +el.getAttribute('data-count');
+        let cur = 0;
+        const step = Math.max(1, Math.ceil(target/60));
+        const timer = setInterval(()=>{
+          cur += step;
+          if(cur >= target){ cur = target; clearInterval(timer); }
+          el.textContent = cur.toLocaleString();
+        }, 20);
+        observer.unobserve(el);
+      }
+    });
+  }, {threshold:.4});
+  counters.forEach(c=>observer.observe(c));
+</script>
+</body>
+</html>
